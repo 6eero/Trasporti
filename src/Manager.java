@@ -29,13 +29,16 @@ public class Manager {
           registroSpedizioni.prenotaSpedizione(spedizione1);
 
 
-          Percorso percorso2 = new Percorso("Udine", "Mestre", new String[]{"Lecce", "Livorno", "Atlanta", "Belluno"});
+          Percorso percorso2 = new Percorso("Udine", "Mestre", new String[]{"Lecce", "Livorno", "Bergamo", "Belluno"});
           Date tempistiche2 = new Date("11 dicembre", "23 gennaio");
           Autocarro autocarro2 = new Autocarro(9, "BS 895KD", Autocarro.tipoMerce.liquidi);
           String numeroSpedizione2 = "#41298";
           Spedizione spedizione2 = new Spedizione(percorso2, tempistiche2, autocarro2, numeroSpedizione2);
 
           registroSpedizioni.prenotaSpedizione(spedizione2);
+
+          registroSpedizioni.stampaPercorso("#41298");
+          registroSpedizioni.viaggiPrenotati("BS 895KD");
 
      }
 }

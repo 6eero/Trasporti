@@ -1,18 +1,22 @@
 public class Autocarro {
 
-    public double quantitaMax;
-    public String targa;
-    public enum tipoMerce {
+    private double quantitaMax;
+    private String targa;
+    enum tipoMerce {
         colliSfusi,
         liquidi,
         gas,
         daFrigo
     }
-    public static tipoMerce tipoMerce;
+    private tipoMerce tipoMerce;
 
     public Autocarro (double quantitaMax, String targa, tipoMerce tipoMerce) {
         this.quantitaMax = quantitaMax;
         this.targa = targa;
         this.tipoMerce = tipoMerce;
+    }
+
+    public String getTarga() {
+        return targa;
     }
 }
