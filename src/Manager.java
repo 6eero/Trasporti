@@ -36,6 +36,7 @@ public class Manager {
           Spedizione spedizione2 = new Spedizione(percorso2, tempistiche2, autocarro2, numeroSpedizione2);
 
           registroSpedizioni.prenotaSpedizione(spedizione2);
+
      }
 }
 
