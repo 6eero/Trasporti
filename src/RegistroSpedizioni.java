@@ -1,6 +1,8 @@
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.Vector;
+import java.util.function.Predicate;
 
 public class RegistroSpedizioni {
 
@@ -61,18 +63,11 @@ public class RegistroSpedizioni {
 
     /**
      * Metodo che permette di sapere quali viaggi sono prenotati per una certa data, o origine, o destinazione, o autocarro
-     * @param test può essere una data nel formato "Giorno mese", un luogo d'origine o una destinazione oppure un numero di spedizione
+     * @param predicate
+     * @return un oggetto di tipo iteratore xhe contiene le spedizioni che sono prenotate per una data, origine, destinazione o autocarro
      */
-    public void viaggiPrenotati(String test) {
-        for (int i = 0; i < registroSpedizioni.size(); i++) {
-            if (
-                    (registroSpedizioni.get(i).tempistica.getDataPartenza().toString().equals(test)) ||
-                    (Objects.equals(registroSpedizioni.get(i).percorso.getOrigine(), test)) ||
-                    (Objects.equals(registroSpedizioni.get(i).percorso.getDestinazione(), test)) ||
-                    (Objects.equals(registroSpedizioni.get(i).autocarro.getTarga(), test))
-            ) {
-                System.out.println("La spedizione "+registroSpedizioni.get(i).numeroSpedizione+" è prenotata");
-            }
-        }
+    public Iterator<Spedizione> viaggiPrenotati(Predicate<Spedizione> predicate) {
+        return registroSpedizioni.stream().filter(predicate).iterator();
     }
+
 }

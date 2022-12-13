@@ -1,3 +1,7 @@
+import java.util.Iterator;
+import java.util.Objects;
+import java.util.function.Predicate;
+
 /**
  * L’azienda di trasporti Logistic vuole usare un’app mobile per consentire ai propri manager di creare e modificare dei
  * viaggi che i propri autocarri possono svolgere. Ciascun viaggio, che va da una città di origine a una di destinazione
@@ -20,7 +24,7 @@ public class Manager {
 
           RegistroSpedizioni registroSpedizioni = new RegistroSpedizioni();
 
-          Percorso percorso1 = new Percorso("Roma", "Napoli", new String[]{"Udine", "Milano"});
+          Percorso percorso1 = new Percorso("Udine", "Napoli", new String[]{"Udine", "Milano"});
           Date tempistiche1 = new Date("12 dicembre", "18 dicembre");
           Autocarro autocarro1 = new Autocarro(12, "BS 456GB", Autocarro.tipoMerce.daFrigo);
           String numeroSpedizione1 = "#14456";
@@ -37,8 +41,15 @@ public class Manager {
 
           registroSpedizioni.prenotaSpedizione(spedizione2);
 
-          registroSpedizioni.stampaPercorso("#41298");
-          registroSpedizioni.viaggiPrenotati("BS 895KD");
+
+
+
+          Iterator<Spedizione> i = registroSpedizioni.viaggiPrenotati(new Filtro("Udine"));
+
+          while (i.hasNext()) {
+               System.out.println("La spedizione "+i.next().numeroSpedizione+" è prenotata");
+          }
+
 
      }
 }
