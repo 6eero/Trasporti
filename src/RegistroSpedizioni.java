@@ -63,8 +63,8 @@ public class RegistroSpedizioni {
 
     /**
      * Metodo che permette di sapere quali viaggi sono prenotati per una certa data, o origine, o destinazione, o autocarro
-     * @param predicate
-     * @return un oggetto di tipo iteratore xhe contiene le spedizioni che sono prenotate per una data, origine, destinazione o autocarro
+     * @param predicate è il parametro che definisce secondo quale filtro filtrare le spedizioni
+     * @return un oggetto di tipo iteratore che contiene le spedizioni che sono prenotate per una data, origine, destinazione o autocarro
      */
     public Iterator<Spedizione> viaggiPrenotati(Predicate<Spedizione> predicate) {
         return registroSpedizioni.stream().filter(predicate).iterator();
