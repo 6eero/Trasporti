@@ -1,57 +1,88 @@
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.Vector;
 import java.util.function.Predicate;
-
-/**
- * L’azienda di trasporti Logistic vuole usare un’app mobile per consentire ai propri manager di creare e modificare dei
- * viaggi che i propri autocarri possono svolgere. Ciascun viaggio, che va da una città di origine a una di destinazione
- * eventualmente passando per città intermedie, riguarda quantità (in kg) di merce di un certo tipo (colli sfusi, liqui-
- * di, gas, da-frigo) per conto di un cliente. Il viaggio deve essere svolto con autocarri (di tipo compatibile col tipo
- * di merce) e capacità di carico adeguata (eventualmente più di uno) in modo che la merce parta a una certa data oppure
- * arrivi a una certa data. I percorsi per tutte le coppie servite (orgine, destinazione) sono prefissati; in certi casi
- * esistono percorsi ridondanti (ad es. da UD a MI si può passare per Mestre o per Treviso e poi Castelfranco Veneto).
- * I percorsi sono simmetrici: se esiste (origine –> destinazione) esiste anche (destinazione –> origine) ed è l’inverso.
- * Un viaggio può servire a 1 o più clienti. Un manager deve poter:
- *   - prenotare un certo viaggio, dati origine, destinazione, tipo di merce, kg, data-partenza o data-arrivo
- *   - sapere quali viaggi sono prenotati per una certa data, o origine, o destinazione, o autocarro
- *   - reinstradare un viaggio su un percorso alternativo qualora sia necessario.
- * Si necessita di un’API che consenta di implementare queste operazioni.
- */
 
 public class Manager {
 
-     public static void main(String[] args) {
+    private final Vector<Spedizione> registroSpedizioni;
 
-          RegistroSpedizioni registroSpedizioni = new RegistroSpedizioni();
+    public Manager() {
+        registroSpedizioni = new Vector<Spedizione>();
+    }
 
-          Percorso percorso1 = new Percorso("Udine", "Napoli", new String[]{"Udine", "Milano"});
-          Date tempistiche1 = new Date("12 dicembre", "18 dicembre");
-          Autocarro autocarro1 = new Autocarro(12, "BS 456GB", Autocarro.tipoMerce.daFrigo);
-          String numeroSpedizione1 = "#14456";
-          Spedizione spedizione1 = new Spedizione(percorso1, tempistiche1, autocarro1, numeroSpedizione1);
+    /**
+     * Metodo che permette di prenotare un certo viaggio, dati origine, destinazione, tipo di merce, kg, data-partenza o data-arrivo
+     * @param spedizione != null
+     */
+    public void prenotaSpedizione(Spedizione spedizione) {
+        registroSpedizioni.add(spedizione);
+    }
 
-          registroSpedizioni.prenotaSpedizione(spedizione1);
-
-
-          Percorso percorso2 = new Percorso("Udine", "Mestre", new String[]{"Lecce", "Livorno", "Bergamo", "Belluno"});
-          Date tempistiche2 = new Date("11 dicembre", "23 gennaio");
-          Autocarro autocarro2 = new Autocarro(9, "BS 895KD", Autocarro.tipoMerce.liquidi);
-          String numeroSpedizione2 = "#41298";
-          Spedizione spedizione2 = new Spedizione(percorso2, tempistiche2, autocarro2, numeroSpedizione2);
-
-          registroSpedizioni.prenotaSpedizione(spedizione2);
-
-
-
-
-          Iterator<Spedizione> i = registroSpedizioni.viaggiPrenotati(new Filtro("Udine"));
-
-          while (i.hasNext()) {
-               System.out.println("La spedizione "+i.next().numeroSpedizione+" è prenotata");
-          }
+    /**
+     * Metodo che permette di modificare il tragitto compiuto da un autocarro dato il suo numero di spedizione
+     * @param numeroSpedizione deve appartenere al registro spedizioni
+     * @param nuovaOrigine != null
+     * @param nuovaDestinazione != null
+     * @param percorsointermedio può anche essere null
+     */
+    public void reinstradaSpedizione(String numeroSpedizione, String nuovaOrigine, String nuovaDestinazione, String[] percorsointermedio) {
+        for (int i = 0; i < registroSpedizioni.size(); i++) {
+            if(Objects.equals(registroSpedizioni.get(i).numeroSpedizione, numeroSpedizione)) {
+                registroSpedizioni.get(i).percorso = new Percorso(nuovaOrigine, nuovaDestinazione, percorsointermedio);
+            }
+        }
+    }
 
 
-     }
+    /**
+     * Metodo che permette di sapere quali viaggi sono prenotati per una certa data, o origine, o destinazione, o autocarro
+     * @param campoDiRicerca devessere una data, un luogo di partenza o destinazione oppure una targa di un autocarro
+     * @param manager deve esistere, può anche essere vuoto
+     */
+    public void ricercaUnaSpedizione(String campoDiRicerca, Manager manager) {
+
+        Iterator<Spedizione> i = manager.viaggiPrenotati(new Filtro(campoDiRicerca));
+
+        while (i.hasNext()) {
+            System.out.println("La spedizione "+i.next().numeroSpedizione+" è prenotata");
+        }
+    }
+
+    /**
+     * @return un oggetto di tipo iteratore che contiene le spedizioni che soddisfano il criterio di ricerca
+     */
+    private Iterator<Spedizione> viaggiPrenotati(Predicate<Spedizione> predicate) {
+        return registroSpedizioni.stream().filter(predicate).iterator();
+    }
+
+
+
+
+    /**
+     * Metodo che, dato un numero di spedizone, ne stampa luogo di partenza, di arrivo e il tragitto intermedio
+     * @param numeroSpedizione deve appartenere al registro spedizioni
+     */
+    public void stampaPercorso(String numeroSpedizione) {
+        for (int i = 0; i < registroSpedizioni.size(); i++) {
+            if(Objects.equals(registroSpedizioni.get(i).numeroSpedizione, numeroSpedizione)) {
+                System.out.println("L'origine della spedizione: "+numeroSpedizione+" è: "+ registroSpedizioni.get(i).percorso.getOrigine());
+                System.out.println("La destinazione della spedizione: "+numeroSpedizione+" è: "+ registroSpedizioni.get(i).percorso.getDestinazione());
+                System.out.println("Le città intermedie della spedizione: "+numeroSpedizione+" sono: "+Arrays.toString(registroSpedizioni.get(i).percorso.getCittaIntermedie()));
+            }
+        }
+    }
+    /**
+     * Metodo che stampa tutte le spedizione contenute nel registro spedizioni
+     */
+    public void stampaElencoSpedizioniPrenotate() {
+
+        System.out.println("Spedizioni prenotate:");
+
+        for (int i = 0; i < registroSpedizioni.size(); i++) {
+            System.out.println(registroSpedizioni.get(i).numeroSpedizione);
+        }
+    }
+
 }
-
-

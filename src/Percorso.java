@@ -1,8 +1,8 @@
 public class Percorso {
 
-    private String origine;
-    private String destinazione;
-    private String[] cittaIntermedie;
+    private final String origine;
+    private final String destinazione;
+    private final String[] cittaIntermedie;
 
     public Percorso (String origine, String destinazione, String[] percorsoIntermedio) {
         this.origine = origine;

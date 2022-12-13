@@ -1,7 +1,7 @@
 public class Date {
 
-    private String dataPartenza;
-    private String dataArrivo;
+    private final String dataPartenza;
+    private final String dataArrivo;
 
     public Date (String p, String a) {
         dataPartenza = p;
