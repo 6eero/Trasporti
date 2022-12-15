@@ -2,7 +2,7 @@ public class Percorso {
 
     private final String origine;
     private final String destinazione;
-    private final String[] cittaIntermedie;
+    private String[] cittaIntermedie;
 
     public Percorso (String origine, String destinazione, String[] percorsoIntermedio) {
         this.origine = origine;
@@ -20,5 +20,9 @@ public class Percorso {
 
     public String[] getCittaIntermedie() {
         return cittaIntermedie;
+    }
+
+    public void setCittaIntermedie(String[] nuovoPercorsoIntermedio) {
+        this.cittaIntermedie = nuovoPercorsoIntermedio;
     }
 }

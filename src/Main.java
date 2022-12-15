@@ -43,7 +43,9 @@ public class Main {
           /*-----------------------------------------------------------------------------------------------------------*/
 
           manager.ricercaUnaSpedizione("SD 856PT", manager);
-
+          manager.stampaPercorso(spedizione2);
+          manager.reinstradaSpedizione(spedizione2, "Las Vegas", "Monaco", new String[]{"Roma"});
+          manager.stampaPercorso(spedizione2);
 
      }
 }
