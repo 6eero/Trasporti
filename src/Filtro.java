@@ -5,10 +5,7 @@ public class Filtro implements Predicate<Spedizione> {
 
         private final String s;
 
-        Filtro(String s) {
-
-            this.s = s;
-        }
+        Filtro(String s) { this.s = s;}
 
     /**
      *
@@ -18,8 +15,8 @@ public class Filtro implements Predicate<Spedizione> {
     @Override
         public boolean test(Spedizione spedizione) {
             return (
-                    (spedizione.tempistica.getDataPartenza().equals(s)) || (Objects.equals(spedizione.percorso.getOrigine(), s)) ||
-                    (Objects.equals(spedizione.percorso.getDestinazione(), s)) || (Objects.equals(spedizione.autocarro.getTarga(), s))
+                    (spedizione.getTempistica().getDataPartenza().equals(s)) || (Objects.equals(spedizione.getPercorso().getOrigine(), s)) ||
+                    (Objects.equals(spedizione.getPercorso().getDestinazione(), s)) || (Objects.equals(spedizione.getAutocarro().getTarga(), s))
             );
         }
 }

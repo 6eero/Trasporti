@@ -37,9 +37,9 @@ public class Manager {
         while (it.hasNext()) {
             if (it.next() == spedizione) {
                 if (nuovoPercorsointermedio == null) {
-                    spedizione.percorso = new Percorso(nuovaOrigine, nuovaDestinazione, spedizione.percorso.getCittaIntermedie());
+                    spedizione.setPercorso(new Percorso.PercorsoBuilder(nuovaOrigine, nuovaDestinazione, spedizione.getPercorso().getCittaIntermedie()).build());
                 } else {
-                    spedizione.percorso = new Percorso(nuovaOrigine, nuovaDestinazione, nuovoPercorsointermedio);
+                    spedizione.setPercorso(new Percorso.PercorsoBuilder(nuovaOrigine, nuovaDestinazione, nuovoPercorsointermedio).build());
                 }
             }
         }
@@ -56,7 +56,7 @@ public class Manager {
         Iterator<Spedizione> i = manager.viaggiPrenotati(new Filtro(campoDiRicerca));
 
         while (i.hasNext()) {
-            System.out.println("La spedizione "+i.next().numeroSpedizione+" è prenotata");
+            System.out.println("La spedizione "+ i.next().getNumeroSpedizione() +" è prenotata");
         }
     }
     /*
@@ -81,7 +81,7 @@ public class Manager {
 
         while(it.hasNext()) {
             if(Objects.equals(it.next(), spedizione)) {
-                System.out.println("Il percorso della spediazione "+spedizione.numeroSpedizione+" è "+spedizione.percorso.getOrigine() +" -> "+ Arrays.toString(spedizione.percorso.getCittaIntermedie())+" -> "+spedizione.percorso.getDestinazione());
+                System.out.println("Il percorso della spediazione "+ spedizione.getNumeroSpedizione() +" è "+ spedizione.getPercorso().getOrigine() +" -> "+ Arrays.toString(spedizione.getPercorso().getCittaIntermedie())+" -> "+ spedizione.getPercorso().getDestinazione());
             }
 
         }

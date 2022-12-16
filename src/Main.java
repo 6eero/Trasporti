@@ -20,31 +20,37 @@ public class Main {
 
           Manager manager = new Manager();
 
+
           /*---------------------------------- Popolamento registro delle spedizioni ----------------------------------*/
 
-
-          Spedizione spedizione1 = new Spedizione (
-                  new Percorso("Udine", "Napoli", new String[]{"Udine", "Milano"}),
-                  new Date("12 dicembre", "18 dicembre"),
-                  new Autocarro(12.34, "BS 456GB", Autocarro.tipoMerce.daFrigo),
+          Spedizione spedizione1 = new Spedizione.SpedizioneBuilder (
+                  new Percorso.PercorsoBuilder("Udine", "Roma", new String[] {"Napoli", "Milano"}).build(),
+                  new Date.DateBuilder("12 dicembre", "18 dicembre").build(),
+                  new Autocarro.AutocarroBuilder("BS 456GB", 324.12, "daFrigo").build(),
                   "#14456"
-          );
+          ).build();
           manager.prenotaSpedizione(spedizione1);
 
-          Spedizione spedizione2 = new Spedizione (
-                  new Percorso("San Daniele", "Mestre", new String[]{"Varese", "Belluno", "Firenze", "Milano"}),
-                  new Date("28 dicembre", "4 gennaio"),
-                  new Autocarro(1392, "SD 856PT", Autocarro.tipoMerce.liquidi),
+          Spedizione spedizione2 = new Spedizione.SpedizioneBuilder (
+                  new Percorso.PercorsoBuilder("Vicneza", "Sappada", new String[] {"Vicenza", "Bari", "Gubbio"}).build(),
+                  new Date.DateBuilder("28 dicembre", "4 gennaio").build(),
+                  new Autocarro.AutocarroBuilder("SD 856PT", 233.21, "Colli sfusi").build(),
                   "#74362"
-          );
+          ).build();
           manager.prenotaSpedizione(spedizione2);
 
 
           /*-----------------------------------------------------------------------------------------------------------*/
 
           manager.ricercaUnaSpedizione("SD 856PT", manager);
+
+
           manager.stampaPercorso(spedizione2);
-          manager.reinstradaSpedizione(spedizione2, "Las Vegas", "Monaco", new String[]{"Roma"});
+
+          manager.reinstradaSpedizione(spedizione2, "Las Vegas", "Monaco", null);
+          manager.stampaPercorso(spedizione2);
+
+          manager.reinstradaSpedizione(spedizione2, "New York", "Monaco", new String[]{"Capri"});
           manager.stampaPercorso(spedizione2);
 
      }
